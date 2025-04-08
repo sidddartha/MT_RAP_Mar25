@@ -1,0 +1,33 @@
+@Metadata.layer: #PARTNER
+@UI.headerInfo:{
+   title: { value : 'BookingSupplementId' },
+   description: { value: '_SupplementText.Description' }
+}
+
+annotate entity ZMT_SID_BOOKSUPPL_PROCESSOR
+    with 
+ {    
+ @UI.facet: [
+       { 
+           type: #IDENTIFICATION_REFERENCE,
+           purpose: #STANDARD,
+           label: 'Supplement',
+           position: 10
+       }
+   ]
+
+   @UI.lineItem: [{ position: 10 }]
+   @UI.identification: [{ position: 10 }]
+   BookingSupplementId;
+   @UI.lineItem: [{ position: 20 }]
+   @UI.identification: [{ position: 20 }]
+   SupplementId;
+   @UI.lineItem: [{ position: 30 }]
+   @UI.identification: [{ position: 30 }]
+   Price;
+   @UI.lineItem: [{ position: 40 }]
+   @UI.identification: [{ position: 40 }]
+   CurrencyCode;
+   //LastChangedAt;
+    
+}

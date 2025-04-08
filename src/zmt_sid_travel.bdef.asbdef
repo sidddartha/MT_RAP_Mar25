@@ -1,0 +1,166 @@
+//type of implementation - we want RAP to manage code by itself
+managed implementation in class zbp_mt_sid_travel unique ;
+//Guidelines to be followed - RAP compiler will check the latest language feauture
+strict ( 2 );
+with draft;
+//BDefinition for travel entity
+define behavior for ZMT_sid_TRAVEL alias Travel
+implementation in class zbp_mt_sid_travel unique
+//Name of database table aginst which the RAP will generate the code
+persistent table /dmo/travel_m
+draft table zmt_sid_d_travel
+//Ensure that if there is lock on travel data, associated bookings and
+//supplements cannot be edited
+lock master
+total etag LastChangedAt
+//Who is allowed to create/update/delete data
+authorization master ( instance )
+//eTag - to handle concurrency in case of data updates after read
+etag master LastChangedAt
+///logic to create early numbering
+early numbering
+with additional save
+{
+ ///Hey RAP - please create default implementation for create, update, delete
+ create (precheck);
+ update (precheck);
+ delete;
+
+ draft action Edit;
+ draft determine action Prepare{
+   validation validateHeaderData ;
+ }
+
+ draft action Activate;
+ draft action Discard;
+ draft action Resume;
+
+ field ( readonly ) TravelId;
+ field ( mandatory ) BeginDate, EndDate, AgencyId, CustomerId;
+ //Booking is only allowed along with travel
+ association _Booking { create ( features: instance ) ; with draft;}
+ association _Attachments { create ; with draft; }
+ //its a piece of code which is intented to be only
+ //consumed within our RAP BO
+ internal action reCalcTotalPrice;
+ //Checking custom business object rules
+ validation validateHeaderData on save {create; field CustomerId, BeginDate, EndDate;}
+
+  side effects {
+   field BookingFee affects field TotalPrice;
+ }
+
+ //Define determination to execute the code when
+ //booking fee or curr code changes so we calc total price
+ determination calculateTotalPrice on modify
+           { create; field BookingFee, CurrencyCode; }
+ factory action copyTravel [1];
+ //non factory actions which will change the state of the BO instance
+ action (features : instance) acceptTravel result[1] $self;
+ action (features : instance) rejectTravel result[1] $self;
+ mapping for /dmo/travel_m{
+   TravelId = travel_id;
+   AgencyId = agency_id;
+   CustomerId = customer_id;
+   BeginDate = begin_date;
+   EndDate = end_date;
+   BookingFee = booking_fee;
+   TotalPrice = total_price;
+   CurrencyCode = currency_code;
+   LastChangedAt = last_changed_at;
+   LastChangedBy = last_changed_by;
+   CreatedAt = created_at;
+   CreatedBy = created_by;
+   OverallStatus = overall_status;
+   Description = description;
+ }
+
+}
+//BDefinition for booking entity
+define behavior for ZMT_sid_BOOKING alias Booking
+implementation in class zbp_mt_sid_booking unique
+persistent table /dmo/booking_m
+draft table zmt_sid_d_book
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master LastChangedAt
+early numbering
+{
+ //Only update and delete of booking is allowed
+ update;
+ delete;
+ //make sure that an edit on booking should not change travel
+ field ( readonly ) TravelId, BookingId;
+ field ( mandatory ) CarrierId, ConnectionId, FlightDate;
+ association _Travel;
+ association _BookingSupplement { create; with draft; }
+ mapping for /dmo/booking_m{
+   TravelId = travel_id;
+   BookingId = booking_id;
+   CarrierId = carrier_id;
+   ConnectionId = connection_id;
+   BookingStatus = booking_status;
+   BookingDate = booking_date;
+   CurrencyCode = currency_code;
+   CustomerId = customer_id;
+   FlightDate = flight_date;
+   FlightPrice = flight_price;
+   LastChangedAt = last_changed_at;
+ }
+
+}
+//BDefinition for supplement entity
+define behavior for ZMT_sid_BOOKSUPPL alias BookingSuppl
+persistent table /dmo/booksuppl_m
+draft table zmt_sid_d_bksupp
+lock dependent by _Travel
+authorization dependent by _Travel
+//etag master <field_name>
+early numbering
+{
+ update;
+ delete;
+ field ( readonly ) TravelId, BookingId;
+ field ( mandatory ) BookingSupplementId;
+ association _Travel;
+ association _Booking;
+ mapping for /dmo/booksuppl_m{
+   TravelId = travel_id;
+   BookingId = booking_id;
+   SupplementId = supplement_id;
+   BookingSupplementId = booking_supplement_id;
+   CurrencyCode = currency_code;
+   Price = price;
+ }
+}
+//BDefinition for booking entity
+define behavior for ZMT_SID_M_ATTACH alias Attachment
+implementation in class zbp_mt_sid_attach unique
+persistent table zmt_sid_attach
+//add the draft table name
+draft table zmt_sid_d_attach
+lock dependent by _Travel
+authorization dependent by _Travel
+etag master LastChangedAt
+{
+ //Only update and delete of booking is allowed
+ update;
+ delete;
+ //make sure that an edit on booking should not change travel
+ field (numbering : managed) id;
+ field ( readonly ) TravelId, id;
+ association _Travel;
+ mapping for zmt_sid_attach{
+   TravelId = travel_id;
+   id = id;
+   Attachment = attachment;
+   Filename = filename;
+   Filetype = filetype;
+   LastChangedAt = last_changed_at;
+   LocalCreatedAt = local_created_at;
+   LocalCreatedBy = local_created_by;
+   LocalLastChangedAt = local_last_changed_at;
+   LocalLastChangedBy = local_last_changed_by;
+   memo = memo;
+ }
+}

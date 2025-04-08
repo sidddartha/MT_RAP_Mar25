@@ -1,0 +1,103 @@
+@Metadata.layer: #PARTNER
+@UI.headerInfo: {
+   typeName: 'Travel',
+   typeNamePlural: 'Travels',
+   title: {  value: 'TravelId' },
+   description: { value : 'Description' }
+}
+
+annotate entity ZMT_SID_TRAVEL_APPROVER with
+{
+  @UI.facet: [
+               {
+                   id: 'TravelHeaderPrice',
+                   purpose: #HEADER,
+                   type: #DATAPOINT_REFERENCE,
+                   position: 10,
+                   targetQualifier: 'PriceData'
+               },{
+                   id: 'TravelHeaderStatus',
+                   purpose: #HEADER,
+                   type: #DATAPOINT_REFERENCE,
+                   position: 20,
+                   targetQualifier: 'StatusData'
+               },
+
+              {
+                  purpose: #STANDARD,
+                  type: #COLLECTION,
+                  label: 'General Details',
+                  id: 'super'
+              },
+              {
+                  purpose: #STANDARD,
+                  type: #IDENTIFICATION_REFERENCE,
+                  label: 'More Info',
+                  parentId: 'super',
+                  position: 10
+              },
+               {
+                   purpose: #STANDARD,
+                   type: #FIELDGROUP_REFERENCE,
+                   label: 'Dates',
+                   parentId: 'super',
+                   position: 20,
+                   targetQualifier: 'dates'
+               },
+               {
+                   purpose: #STANDARD,
+                   type: #FIELDGROUP_REFERENCE,
+                   label: 'Price Info',
+                   parentId: 'super',
+                   position: 30,
+                   targetQualifier: 'prices'
+               },
+               {
+                   purpose: #STANDARD,
+                   type: #LINEITEM_REFERENCE,
+                   targetElement: '_Booking',
+                   position: 20,
+                   label: 'Bookings'
+               }
+
+  ]
+
+  @UI.selectionField: [{ position: 10 }]
+  @UI.lineItem: [{ position: 10 },
+  { type: #FOR_ACTION, label: 'Copy Travel', dataAction: 'copyTravel' }]
+  @UI.identification: [{ position: 10 }]
+  TravelId;
+  @UI.selectionField: [{ position: 20 }]
+  @UI.lineItem: [{ position: 20 }]
+  @UI.identification: [{ position: 20 }]
+  AgencyId;
+  @UI.selectionField: [{ position: 30 }]
+  @UI.lineItem: [{ position: 30 }]
+  @UI.identification: [{ position: 30 }]
+  CustomerId;
+  @UI.selectionField: [{ position: 40 }]
+  @UI.lineItem: [{ position: 40 }]
+  @UI.fieldGroup: [{ position: 10, qualifier: 'dates' }]
+  BeginDate;
+  @UI.fieldGroup: [{ position: 20, qualifier: 'dates' }]
+  EndDate;
+  @UI.fieldGroup: [{ position: 10, qualifier: 'prices' }]
+  BookingFee;
+  @UI.selectionField: [{ position: 50 }]
+  @UI.lineItem: [{ position: 50 }]
+  @UI.fieldGroup: [{ position: 20, qualifier: 'prices' }]
+  @UI.dataPoint: {  qualifier: 'PriceData', title: 'Price Data' }  
+  TotalPrice;
+  @UI.fieldGroup: [{ position: 30, qualifier: 'prices' }]
+  CurrencyCode;
+  //    Description;
+  @UI.selectionField: [{ position: 60 }]
+  @UI.lineItem: [{ position: 60, importance: #HIGH, criticality: 'Criticality' },
+  { type: #FOR_ACTION, label: 'Approve', dataAction: 'acceptTravel' },
+   { type: #FOR_ACTION, label: 'Reject', dataAction: 'rejectTravel' }]
+  @UI.fieldGroup: [{ position: 30, qualifier: 'dates' }]
+  @UI.dataPoint: {  qualifier: 'StatusData', title: 'Overall Status' }  
+  OverallStatus; 
+
+
+}

@@ -1,0 +1,29 @@
+projection;
+strict ( 2 );
+use draft;
+
+define behavior for ZMT_SID_TRAVEL_APPROVER alias Travel
+{
+//  use create;
+  use update;
+ // use delete;
+//  use action copyTravel;
+  field ( readonly ) BeginDate, EndDate, TotalPrice, AgencyId, CustomerId;
+  use action acceptTravel;
+  use action rejectTravel;
+  use action Edit;
+  use action Prepare;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+
+  use association _Booking ;
+}
+
+define behavior for ZMT_SID_BOOKING_APPROVER alias Booking
+{
+  //use update;
+  //use delete;
+
+  use association _Travel;
+}

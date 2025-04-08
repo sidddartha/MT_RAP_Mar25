@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<abapGit version="v1.0.0" serializer="LCL_OBJECT_SUSH" serializer_version="v1.0.0">
+ <asx:abap xmlns:asx="http://www.sap.com/abapxml" version="1.0">
+  <asx:values>
+   <HEAD>
+    <NAME>AA4E7D4DE61A035841E60C775E602D</NAME>
+    <TYPE>HT</TYPE>
+    <DISPLAY_NAME>R3TR G4BA ZMT_SID_SB_V4_TRAVEL_PROC</DISPLAY_NAME>
+    <DEVCLASS>ZSID_AOC</DEVCLASS>
+    <ABAP_LANGUAGE_VERSION>5</ABAP_LANGUAGE_VERSION>
+   </HEAD>
+   <USOBX>
+    <USOBX>
+     <NAME>AA4E7D4DE61A035841E60C775E602D</NAME>
+     <TYPE>HT</TYPE>
+     <OBJECT>S_START</OBJECT>
+     <OKFLAG>X</OKFLAG>
+    </USOBX>
+    <USOBX>
+     <NAME>AA4E7D4DE61A035841E60C775E602D</NAME>
+     <TYPE>HT</TYPE>
+     <OBJECT>ZMTSID_MGR</OBJECT>
+     <OKFLAG>Y</OKFLAG>
+    </USOBX>
+   </USOBX>
+   <USOBT>
+    <USOBT>
+     <NAME>AA4E7D4DE61A035841E60C775E602D</NAME>
+     <TYPE>HT</TYPE>
+     <OBJECT>ZMTSID_MGR</OBJECT>
+     <FIELD>ACTVT</FIELD>
+     <LOW>03</LOW>
+    </USOBT>
+   </USOBT>
+   <USOBX_EXT>
+    <item>
+     <OBJECT>S_START</OBJECT>
+     <TTEXT>Start Authorization Check for TADIR Objects</TTEXT>
+     <OCLSS>AAAB</OCLSS>
+     <OKFLAG>X</OKFLAG>
+     <DEVCLASS>S_PROFGEN_START_AUTH</DEVCLASS>
+     <PS_POSID>BC-SEC-AUT-CHK</PS_POSID>
+     <CI_TEXT>Check</CI_TEXT>
+     <CH_TEXT>Check</CH_TEXT>
+     <PR_TEXT>No</PR_TEXT>
+     <EXCEP>3</EXCEP>
+     <EXCEP_TX>Okay</EXCEP_TX>
+     <EXCEP_ICON>@08@</EXCEP_ICON>
+    </item>
+    <item>
+     <OBJECT>ZMTSID_MGR</OBJECT>
+     <TTEXT>Manager Authorization</TTEXT>
+     <OCLSS>CPAE</OCLSS>
+     <OKFLAG>Y</OKFLAG>
+     <DEVCLASS>ZSID_AOC</DEVCLASS>
+     <CI_TEXT>Check/Maintain</CI_TEXT>
+     <CH_TEXT>Check</CH_TEXT>
+     <PR_TEXT>Yes</PR_TEXT>
+     <EXCEP>3</EXCEP>
+     <EXCEP_TX>Okay</EXCEP_TX>
+     <EXCEP_ICON>@08@</EXCEP_ICON>
+    </item>
+   </USOBX_EXT>
+   <USOBT_EXT>
+    <item>
+     <OBJECT>ZMTSID_MGR</OBJECT>
+     <TTEXT>Manager Authorization</TTEXT>
+     <FIELD>ACTVT</FIELD>
+     <LOW>03</LOW>
+    </item>
+   </USOBT_EXT>
+  </asx:values>
+ </asx:abap>
+</abapGit>

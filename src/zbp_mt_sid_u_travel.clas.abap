@@ -1,0 +1,5 @@
+CLASS zbp_mt_sid_u_travel DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zmt_sid_u_travel.
+ENDCLASS.
+
+CLASS zbp_mt_sid_u_travel IMPLEMENTATION.
+ENDCLASS.

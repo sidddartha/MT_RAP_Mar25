@@ -1,0 +1,14 @@
+@EndUserText.label: 'Travel Processor SD'
+define service ZMT_SID_SD_TRAVEL_PROC {
+  expose ZMT_SID_TRAVEL_PROCESSOR    as Travel;
+  expose ZMT_SID_BOOKING_PROCESSOR   as Booking;
+  expose ZMT_SID_M_ATTACH_PROCESSOR  as Attachment;
+  expose ZMT_SID_BOOKSUPPL_PROCESSOR as BookingSuppl;
+  expose /DMO/I_Overall_Status_VH    as TravelStatus;
+  expose I_Currency                  as Currency;
+  expose /DMO/I_Customer             as Customer;
+  expose /DMO/I_Agency               as Agency;
+  expose /DMO/I_Booking_Status_VH    as BookingStatus;
+  expose /DMO/I_Connection           as Connections;
+  expose /DMO/I_Carrier              as Carrier;
+}

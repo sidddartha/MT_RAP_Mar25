@@ -1,0 +1,6 @@
+@EndUserText.label: 'Service Definition Unmanaged'
+define service ZMT_SID_SD_U_TRAVEL {
+  expose ZMT_SID_U_TRAVEL   as Travel;
+  expose ZMT_SID_U_AGENCY   as Agency;
+  expose ZMT_SID_U_CUSTOMER as Customer;
+}
